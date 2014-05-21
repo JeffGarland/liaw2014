@@ -11,9 +11,9 @@
 
 namespace boost { namespace boostache { namespace vm
 {
-   
+
 
 }}}
 
+#endif // BOOST_BOOSTACHE_VM_ENGINE_HPP
 
-#endif

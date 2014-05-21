@@ -73,8 +73,8 @@ namespace boost { namespace boostache { namespace vm { namespace detail
    {
       foreach(stream, node, context, typename supports_foreach<Context>::type{});
    }
-   
+
 }}}}
 
+#endif // BOOST_BOOSTACHE_VM_DETAIL_FOREACH_HPP
 
-#endif
