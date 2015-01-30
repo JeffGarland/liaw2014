@@ -8,14 +8,11 @@
  */
 #define BOOST_SPIRIT_NO_PREDEFINED_TERMINALS
 
-#include <boost/boostache/boostache.hpp>
-#include <boost/boostache/frontend/stache/grammar_def.hpp> // need to work out header only syntax
 #include <boost/boostache/stache.hpp>
-#include <boost/boostache/model/stache_model.hpp>
 #include <iostream>
-#include <strstream>
+#include <sstream>
 
-namespace bstache = boost::boostache;
+namespace bs = boost::boostache;
 
 // ----------------------------------------
 // The following specializations allow
@@ -26,93 +23,91 @@ namespace bstache = boost::boostache;
 // the render and test methods that can be
 // found via ADL.
 // ----------------------------------------
-namespace boost { namespace boostache { namespace model
-{
-   struct print_value
-   {
-      typedef void result_type;
-      print_value(std::ostream & s) : stream(s) {}
-
-      template <typename T>
-      void operator()(T const &) const
-      {}
-
-      void operator()(std::string const & v) const
-      {
-         stream << v;
-      }
-
-      void operator()(model::stache_variant const & v) const
-      {
-         boost::apply_visitor(*this, v);
-      }
-
-   private:
-      std::ostream & stream;
-   };
-
-   template <typename Stream>
-   inline void render(Stream & stream, stache_model const & context, std::string const & name)
-   {
-      auto iter = context.find(name);
-      if(iter != context.end())
-      {
-         print_value printer(stream);
-         printer(iter->second);
-      }
-   }
-
-   struct test_value
-   {
-      typedef bool result_type;
-
-      template <typename T>
-      bool operator()(T const &) const
-      {
-         return false;
-      }
-
-      bool operator()(std::string const &) const
-      {
-         return true;
-      }
-
-      bool operator()(model::stache_model_vector const & v) const
-      {
-         return !v.empty();
-      }
-
-      bool operator()(model::stache_model const & v) const
-      {
-         return !v.empty();
-      }
-
-      bool operator()(model::stache_bool_function const & v) const
-      {
-         return v();
-      }
-
-      bool operator()(model::stache_variant const & v) const
-      {
-         return boost::apply_visitor(*this, v);
-      }
-   };
-
-   bool test(std::string const & name, stache_model const & context)
-   {
-      auto iter = context.find(name);
-      if(iter != context.end())
-      {
-         test_value tester;
-         return tester(iter->second);
-      }
-      return false;
-   }
-}}}
+//namespace boost { namespace boostache { namespace model
+//{
+//   struct print_value
+//   {
+//      typedef void result_type;
+//      print_value(std::ostream & s) : stream(s) {}
+//
+//      template <typename T>
+//      void operator()(T const &) const
+//      {}
+//
+//      void operator()(std::string const & v) const
+//      {
+//         stream << v;
+//      }
+//
+//      void operator()(model::stache_variant const & v) const
+//      {
+//         boost::apply_visitor(*this, v);
+//      }
+//
+//   private:
+//      std::ostream & stream;
+//   };
+//
+//   template <typename Stream>
+//   inline void render(Stream & stream, stache_model const & context, std::string const & name)
+//   {
+//      auto iter = context.find(name);
+//      if(iter != context.end())
+//      {
+//         print_value printer(stream);
+//         printer(iter->second);
+//      }
+//   }
+//
+//   struct test_value
+//   {
+//      typedef bool result_type;
+//
+//      template <typename T>
+//      bool operator()(T const &) const
+//      {
+//         return false;
+//      }
+//
+//      bool operator()(std::string const &) const
+//      {
+//         return true;
+//      }
+//
+//      bool operator()(model::stache_model_vector const & v) const
+//      {
+//         return !v.empty();
+//      }
+//
+//      bool operator()(model::stache_model const & v) const
+//      {
+//         return !v.empty();
+//      }
+//
+//      bool operator()(model::stache_bool_function const & v) const
+//      {
+//         return v();
+//      }
+//
+//      bool operator()(model::stache_variant const & v) const
+//      {
+//         return boost::apply_visitor(*this, v);
+//      }
+//   };
+//
+//   bool test(std::string const & name, stache_model const & context)
+//   {
+//      auto iter = context.find(name);
+//      if(iter != context.end())
+//      {
+//         test_value tester;
+//         return tester(iter->second);
+//      }
+//      return false;
+//   }
+//}}}
 // ----------------------------------------
 // ----------------------------------------
-
-
 
 int main()
 {
@@ -136,28 +131,36 @@ int main()
    std::function<bool()> false_ = [](){return false;};
    std::function<bool()> true_  = [](){return true;};
 
-   bstache::model::stache_model data = {{"name","Jeff"},{"whoot","yipee"},{"bar",false_},{"foo",true_}};
+   bs::model::stache_model data = {{"name","Jeff"},
+                                   {"whoot","yipee"},
+                                   {"bar",false_},
+                                   {"foo",true_}};
    // ------------------------------------------------------------------
 
 
    // ------------------------------------------------------------------
-   // load the template
+   // Load the template
    // This parses the input and compiles the result. The return is the
    // compiled data structure
    auto iter = input.begin();
-   auto templ = bstache::load_template<bstache::format::stache>(iter,input.end());
+   auto templ = bs::load_template<bs::format::stache>(iter,input.end());
    // ------------------------------------------------------------------
 
-   
+
    // ------------------------------------------------------------------
    // Apply the compiled template and the data model to the generate
    // method
    std::ostringstream stream;
-   bstache::generate(stream, templ, data);
+   bs::generate(stream, templ, data);
    // ------------------------------------------------------------------
 
-   std::cout << stream.str();
 
-   return -1;
+   // ------------------------------------------------------------------
+   // Print rendered template.
+   std::cout << "=========\n"
+             << stream.str()
+             << "=========\n";
+   return EXIT_SUCCESS;
+   // ------------------------------------------------------------------
 }
 

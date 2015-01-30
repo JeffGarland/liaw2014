@@ -23,4 +23,5 @@ namespace boost { namespace boostache { namespace vm
    }
 }}}
 
-#endif
+#endif // BOOST_BOOSTACHE_VM_GENERATE_HPP
+

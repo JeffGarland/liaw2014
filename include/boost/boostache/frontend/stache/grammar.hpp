@@ -7,8 +7,8 @@
  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#ifndef BOOST_BOOSTACHE_FRONT_END_STACHE_GRAMMAR_HPP
-#define BOOST_BOOSTACHE_FRONT_END_STACHE_GRAMMAR_HPP
+#ifndef BOOST_BOOSTACHE_FRONTEND_STACHE_GRAMMAR_HPP
+#define BOOST_BOOSTACHE_FRONTEND_STACHE_GRAMMAR_HPP
 
 #include <boost/boostache/frontend/stache/ast.hpp>
 
@@ -72,5 +72,5 @@ namespace boost { namespace boostache { namespace frontend { namespace stache
    };
 }}}}
 
-#endif
+#endif // BOOST_BOOSTACHE_FRONTEND_STACHE_GRAMMAR_HPP
 

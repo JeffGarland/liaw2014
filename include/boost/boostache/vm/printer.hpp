@@ -84,4 +84,5 @@ namespace boost { namespace boostache { namespace vm { namespace ast
    }
 }}}}
 
-#endif
+#endif // BOOST_BOOSTACHE_VM_PRINTER_HPP
+

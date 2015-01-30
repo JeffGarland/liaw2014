@@ -11,8 +11,8 @@
  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
  */
-#ifndef BOOST_BOOSTACHE_FRONT_END_TAGS_HPP
-#define BOOST_BOOSTACHE_FRONT_END_TAGS_HPP
+#ifndef BOOST_BOOSTACHE_FRONTEND_PARSE_HPP
+#define BOOST_BOOSTACHE_FRONTEND_PARSE_HPP
 
 #include <boost/spirit/include/qi_parse.hpp>
 #include <boost/spirit/include/support_istream_iterator.hpp>
@@ -25,7 +25,7 @@ namespace boost { namespace boostache { namespace frontend
    {
       typename Format::ast_t ast;
       typename Format::template grammar_t<Iterator> grammar;
-      
+
       // TODO mjc : should throw with parse error location
       if(!boost::spirit::qi::phrase_parse( begin, end
                                          , grammar
@@ -36,7 +36,6 @@ namespace boost { namespace boostache { namespace frontend
       }
       return ast;
    }
-
 
    template <typename Format>
    typename Format::ast_t parse(std::istream& input)
@@ -49,4 +48,5 @@ namespace boost { namespace boostache { namespace frontend
    }
 }}}
 
-#endif
+#endif // BOOST_BOOSTACHE_FRONTEND_PARSE_HPP
+
